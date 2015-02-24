@@ -13,7 +13,7 @@ public class Post {
 		this.content = content;
 		System.out.println(date);
 		System.out.println(content);
-	}
+	} 
 	
 	public String getContent(){
 		return content;
@@ -33,6 +33,10 @@ public class Post {
 			return content.equals(p.content) && date.equals(p.date) && comment.equals(p.comment);
 		}
 		return false;
+	}
+	
+	public int hashCode(){
+		return date.hashCode()+content.hashCode()+comment.hashCode();
 	}
 	
 	public boolean contains(String substring){
