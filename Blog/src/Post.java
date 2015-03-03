@@ -27,6 +27,10 @@ public class Post {
 		return content;
 	}
 	
+	public String print(){
+		return date.toLocaleString() + "\n" + content;
+	}
+	
 	public boolean equals(Object o){
 		if(o instanceof Post){
 			Post p = (Post)o;
