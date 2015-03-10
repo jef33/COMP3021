@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Post {
+public class Post implements Comparable<Post>{
 
 	private Date date;
 	private String content;
@@ -31,6 +31,10 @@ public class Post {
 		return date.toLocaleString() + "\n" + content;
 	}
 	
+	public Date getDate(){
+		return this.date;
+	}
+	
 	public boolean equals(Object o){
 		if(o instanceof Post){
 			Post p = (Post)o;
@@ -47,5 +51,14 @@ public class Post {
 		if(substring==null)
 			return false;
 		return content.contains(substring);
+	}
+
+	@Override
+	public int compareTo(Post p) {
+		try{
+			return date.compareTo(p.date);
+		}catch(Exception e){
+			return 0;
+		}
 	}
 }

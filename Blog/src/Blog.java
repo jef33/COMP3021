@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class Blog {
@@ -36,6 +37,21 @@ public class Blog {
 		}catch(Exception e){
 			System.out.println("Invalid post index number");
 		}
+	}
+	
+	public void search(int month, String someone){
+		Calendar cal = Calendar.getInstance();
+		for(Post p:allPosts){
+			cal.setTime(p.getDate());
+			int postMonth = cal.get(Calendar.MONTH)+1;
+			if(month != postMonth || !p.contains(someone))
+				continue;
+			System.out.print(p.print());			
+		}
+	}
+	
+	public void setPosts(ArrayList<Post> allposts2) {
+		allPosts = allposts2;
 	}
 	
 	public String toString(){

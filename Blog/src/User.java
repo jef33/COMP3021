@@ -1,7 +1,7 @@
 import java.util.Date;
 
 
-public class User {
+public class User implements Comparable<User>{
 
 	private int id;
 	private String name;
@@ -26,15 +26,33 @@ public class User {
 		return name;
 	}
 	
+	@SuppressWarnings("finally")
 	public boolean equals(Object o){
-		if(o instanceof User){
-			User u = (User)o;
-			return id==u.id && name.equals(u.name) && email.equals(u.email);
+		try{
+			if(o instanceof User){
+				User u = (User)o;
+				return id==u.id && name.equals(u.name) && email.equals(u.email);
+			}
+		}finally{
+			return false;
 		}
-		return false;
 	}
 	
 	public int hashCode(){
 		return name.hashCode()+email.hashCode()+id;
+	}
+
+	@Override
+	public int compareTo(User u) {
+		try{
+			if(id < u.id)
+				return -1;
+			else if(id > u.id)
+				return 1;
+			else
+				return 0;
+		}catch(Exception e){
+			return 0;
+		}
 	}
 }
