@@ -1,8 +1,15 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class Blog {
+public class Blog implements Serializable{
 
 	private User user;
 	private ArrayList<Post> allPosts;
@@ -16,14 +23,22 @@ public class Blog {
 		this.user = user;
 	}
 	
+	public void setPosts(ArrayList<Post> allposts2) {
+		allPosts = allposts2;
+	}
+	
 	public User getUser(){
 		return user;
+	}
+	
+	public String toString(){
+		return user.getName() + "'s Blog";
 	}
 	
 	public void post(Post p){
 		allPosts.add(p);
 		System.out.println("You have added a new post to your blog");
-	}
+	}	
 	
 	public void list(){
 		int i=0;
@@ -50,12 +65,34 @@ public class Blog {
 		}
 	}
 	
-	public void setPosts(ArrayList<Post> allposts2) {
-		allPosts = allposts2;
+	public void save(String path)/* throws IOException*/{
+		try{
+			FileOutputStream f = new FileOutputStream(path);
+			ObjectOutputStream o = new ObjectOutputStream(f);
+			o.writeObject(this);
+			o.close();
+			f.close();
+		}catch(IOException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public String toString(){
-		return user.getName() + "'s Blog";
+	public void load(String path)/* throws IOException, ClassNotFoundException*/{
+		FileInputStream f;
+		try {
+			f = new FileInputStream(path);
+			ObjectInputStream o = new ObjectInputStream(f);
+			Blog b = (Blog) o.readObject();
+			this.user = b.user;
+			this.allPosts = b.allPosts;
+			o.close();
+			f.close();
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Wait! There is something wrong. I cannot find the file..");
+		}
 	}
 	
 	public boolean equals(Object o){

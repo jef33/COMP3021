@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class User implements Comparable<User>{
+public class User implements Comparable<User>, Serializable{
 
 	private int id;
 	private String name;
