@@ -40,10 +40,12 @@ public class Blog implements Serializable{
 		System.out.println("You have added a new post to your blog");
 	}	
 	
-	public void list(){
+	public String list(){
 		int i=0;
+		StringBuffer output = new StringBuffer("");
 		for(Post p:allPosts)
-			System.out.println("Post[" + i++ + "]: " + p.print());
+			output.append("Post[" + i++ + "]: " + p.print() + "\n");
+		return output.toString();
 	}
 	
 	public void delete(int index){
