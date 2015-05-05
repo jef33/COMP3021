@@ -1,9 +1,12 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 
 public class BlogClient {
@@ -12,7 +15,8 @@ public class BlogClient {
 	public static final int PORT = 3021;
 	
 	public static void main(String[] args){
-		User user = new User(1, "A", "a@cse.ust.hk");
+		
+		/*User user = new User(1, "A", "a@cse.ust.hk");
 		
 		ArrayList<Post> allposts = new ArrayList<Post>();
 		// Month starts with 0, not 1
@@ -31,15 +35,33 @@ public class BlogClient {
 				"Thanks @Amy for your beautiful gift"));
 		
 		Blog blog=new Blog(user);
-		blog.setPosts(allposts);
+		blog.setPosts(allposts);*/
+		
 		try {	          
 			Socket socket = new Socket(IP, PORT);
-			socket.setSoTimeout(3000);
+			socket.setSoTimeout(0);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-			writer.write(blog.list());
-			writer.close();
+			while(true){
+				
+				System.out.print("Enter something:");
+				String cin = new Scanner(System.in).nextLine();
+				writer.println(cin);
+				if (cin.equals("quit"))
+					break;
+				else{
+					String line;
+					while(true){
+						if(socket.getInputStream().available() > 0 && (line = reader.readLine()) != null){
+							System.out.println(line);
+							break;
+						}
+					}
+				}
+				//writer.close();
+			}
+			reader.close();
 			socket.close();
-			//System.out.println(blog.list());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
